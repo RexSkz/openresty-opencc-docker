@@ -1,5 +1,5 @@
 FROM alpine:latest as builder
-LABEL MAINTAINER="Shawn Zhang <hustshawn@gmail.com>"
+LABEL MAINTAINER="Rex Zeng <rex@rexskz.info>"
 
 # Latest stable version
 ARG OPENCC_VERSION="ver.1.0.5"
@@ -13,7 +13,7 @@ RUN apk add cmake doxygen g++ make git python \
     && cp /usr/lib/libopencc.so.2 /usr/lib64/libopencc.so.2 \
     && apk del make doxygen cmake
 
-FROM openresty/openresty:1.13.6.2-alpine
+FROM openresty/openresty:1.15.8.2-alpine
 
 # COPY opencc binary
 COPY --from=builder /usr/lib64 /usr/lib64
