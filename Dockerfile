@@ -25,21 +25,11 @@ COPY --from=builder /usr/bin/opencc* /usr/bin/
 
 # Set timezone
 ENV TZ=Asia/Hong_Kong
-RUN apk add tzdata && \
-    cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
-    echo ${TZ} > /etc/timezone && \
-    apk del tzdata
+RUN apk add tzdata \
+    && cp /usr/share/zoneinfo/${TZ} /etc/localtime \
+    && echo ${TZ} > /etc/timezone \
+    && apk del tzdata
 
 # avif and webp support
-RUN apk add libwebp
-RUN DIR=/tmp/aom && \
-    git clone --branch ${AOM_VERSION} --depth 1 https://aomedia.googlesource.com/aom ${DIR} ; \
-    cd ${DIR} ; \
-    rm -rf CMakeCache.txt CMakeFiles ; \
-    mkdir -p ./aom_build ; \
-    cd ./aom_build ; \
-    cmake -DCMAKE_INSTALL_PREFIX="${PREFIX}" -DBUILD_SHARED_LIBS=1 ..; \
-    make ; \
-    make install ; \
-    rm -rf ${DIR}
-RUN curl https://github.com/Kagami/go-avif/releases/download/${GO_AVIF_VERSION}/avif-linux-x64 > /usr/bin/avif
+RUN apk add libwebp aom-dev \
+    && curl https://github.com/Kagami/go-avif/releases/download/${GO_AVIF_VERSION}/avif-linux-x64 > /usr/bin/avif
