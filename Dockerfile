@@ -11,7 +11,7 @@ RUN apk add cmake doxygen g++ make git python3 \
     && make \
     && make install \
     && mkdir -p /usr/lib64 \
-    && cp /usr/lib/libopencc.so.2 /usr/lib64/libopencc.so.2 \
+    && cp /usr/lib/libopencc.so /usr/lib64/libopencc.so \
     && apk del make doxygen cmake
 
 FROM openresty/openresty:1.15.8.2-alpine
