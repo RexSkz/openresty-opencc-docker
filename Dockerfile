@@ -4,6 +4,7 @@ LABEL MAINTAINER="Rex Zeng <rex@rexskz.info>"
 # Latest stable version
 ARG OPENCC_VERSION="ver.1.0.5"
 ARG GO_AVIF_VERSION="v0.1.0"
+ARG AOM_VERSION="v1.0.0"
 
 RUN apk add cmake doxygen g++ make git python3 \
     && cd /tmp && git clone https://github.com/BYVoid/OpenCC.git && cd OpenCC \
@@ -30,6 +31,15 @@ RUN apk add tzdata && \
     apk del tzdata
 
 # avif and webp support
-RUN apt-get update && \
-    apt-get install webp libaom-dev && \
-    curl https://github.com/Kagami/go-avif/releases/download/${GO_AVIF_VERSION}/avif-linux-x64 > /usr/bin/avif
+RUN apk add libwebp
+RUN DIR=/tmp/aom && \
+    git clone --branch ${AOM_VERSION} --depth 1 https://aomedia.googlesource.com/aom ${DIR} ; \
+    cd ${DIR} ; \
+    rm -rf CMakeCache.txt CMakeFiles ; \
+    mkdir -p ./aom_build ; \
+    cd ./aom_build ; \
+    cmake -DCMAKE_INSTALL_PREFIX="${PREFIX}" -DBUILD_SHARED_LIBS=1 ..; \
+    make ; \
+    make install ; \
+    rm -rf ${DIR}
+RUN curl https://github.com/Kagami/go-avif/releases/download/${GO_AVIF_VERSION}/avif-linux-x64 > /usr/bin/avif
