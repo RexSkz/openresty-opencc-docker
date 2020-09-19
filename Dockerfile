@@ -3,6 +3,7 @@ LABEL MAINTAINER="Rex Zeng <rex@rexskz.info>"
 
 # Latest stable version
 ARG OPENCC_VERSION="ver.1.0.5"
+ARG GO_AVIF_VERSION="v0.1.0"
 
 RUN apk add cmake doxygen g++ make git python \
     && cd /tmp && git clone https://github.com/BYVoid/OpenCC.git && cd OpenCC \
@@ -27,3 +28,8 @@ RUN apk add tzdata && \
     cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
     echo ${TZ} > /etc/timezone && \
     apk del tzdata
+
+# avif and webp support
+RUN apt-get update && \
+    apt-get install webp libaom-dev && \
+    curl https://github.com/Kagami/go-avif/releases/download/${GO_AVIF_VERSION}/avif-linux-x64 > /usr/bin/avif
