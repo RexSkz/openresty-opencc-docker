@@ -3,8 +3,6 @@ LABEL MAINTAINER="Rex Zeng <rex@rexskz.info>"
 
 # Latest stable version
 ARG OPENCC_VERSION="ver.1.0.5"
-ARG GO_AVIF_VERSION="v0.1.0"
-ARG AOM_VERSION="v1.0.0"
 
 RUN apk add cmake doxygen g++ make git python3 \
     && cd /tmp && git clone https://github.com/BYVoid/OpenCC.git && cd OpenCC \
@@ -16,6 +14,9 @@ RUN apk add cmake doxygen g++ make git python3 \
     && apk del make doxygen cmake
 
 FROM openresty/openresty:1.17.8.2-5-alpine
+
+ARG GO_AVIF_VERSION="v0.1.0"
+ARG AOM_VERSION="v1.0.0"
 
 # COPY opencc binary
 COPY --from=builder /usr/lib64 /usr/lib64
