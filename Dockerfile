@@ -15,7 +15,7 @@ RUN apk add cmake doxygen g++ make git python3 \
     && cp /usr/lib/libopencc.so /usr/lib64/libopencc.so \
     && apk del make doxygen cmake
 
-FROM openresty/openresty:1.15.8.2-alpine
+FROM openresty/openresty:1.17.8.2-5-alpine
 
 # COPY opencc binary
 COPY --from=builder /usr/lib64 /usr/lib64
@@ -31,6 +31,5 @@ RUN apk add tzdata \
     && apk del tzdata
 
 # avif and webp support
-RUN apk update \
-    && apk add libwebp aom-dev \
+RUN apk add libwebp aom-dev \
     && curl https://github.com/Kagami/go-avif/releases/download/${GO_AVIF_VERSION}/avif-linux-x64 > /usr/bin/avif
