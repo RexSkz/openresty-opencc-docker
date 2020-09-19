@@ -31,5 +31,6 @@ RUN apk add tzdata \
     && apk del tzdata
 
 # avif and webp support
-RUN apk add libwebp aom-dev \
+RUN apk update \
+    && apk add libwebp aom-dev \
     && curl https://github.com/Kagami/go-avif/releases/download/${GO_AVIF_VERSION}/avif-linux-x64 > /usr/bin/avif
