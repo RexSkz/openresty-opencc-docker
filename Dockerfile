@@ -5,7 +5,7 @@ LABEL MAINTAINER="Rex Zeng <rex@rexskz.info>"
 ARG OPENCC_VERSION="ver.1.0.5"
 ARG GO_AVIF_VERSION="v0.1.0"
 
-RUN apk add cmake doxygen g++ make git python \
+RUN apk add cmake doxygen g++ make git python3 \
     && cd /tmp && git clone https://github.com/BYVoid/OpenCC.git && cd OpenCC \
     && git checkout -b ${OPENCC_VERSION} \
     && make \
